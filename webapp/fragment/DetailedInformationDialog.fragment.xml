@@ -1,0 +1,81 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form">
+    <Dialog
+        class="sapUiNoContentPadding"
+        title="{i18n>DETAILED_INFORMATION_TITLE}">
+        <content>
+            <form:SimpleForm
+                layout="ResponsiveGridLayout"
+                adjustLabelSpan="false"
+                singleContainerFullSize="false">
+                <ObjectStatus
+                    text="{i18n>EMPLOYEE_VACATION_DOCS_NOT_SIGNED}"
+                    inverted="true"
+                    state="Error" 
+                    visible="{= ${mDetailedInformationDialog>/statusID} === '01' &amp;&amp; !${mDetailedInformationDialog>/docId} }" />
+                    
+                <Label 
+                    text="{i18n>EMPLOYEE_VACATION_TYPE}" 
+                    design="Bold"/>
+                <Text 
+                    text="{
+                        parts: ['mDetailedInformationDialog>/leaveType'],
+                        formatter: '.formatter.formatAward'}" />
+                <Label 
+                    text="{i18n>DETAILED_INFORMATION_DATE_CREATE_VACATION}" 
+                    design="Bold"/>
+
+                <Text 
+                    text="{
+                        parts: [
+                            'mDetailedInformationDialog>/createDate'],
+                        formatter: '.formatter.createDateVacationFormatter'}" />
+                            
+                <Label 
+                    text="{i18n>EMPLOYEE_VACATION_DATES}" 
+                    design="Bold"/>
+            
+                <Text 
+                    text="{
+                        parts: [
+                            'mDetailedInformationDialog>/startDate', 
+                            'mDetailedInformationDialog>/endDate'], 
+                        formatter: '.formatter.dateRangeFormatter'}" />
+                
+                <Label 
+                    text="{i18n>EMPLOYEE_VACATION_STATUS}" 
+                    design="Bold"/>
+                <ObjectStatus
+                    text="{
+                        parts: ['mDetailedInformationDialog>/statusID'],
+                        formatter: '.formatter.formatStatus'}"
+                    inverted="true"
+                    state="{= ${mDetailedInformationDialog>/statusID} === '02' ? 'Error' : 'Success' }" />
+
+                <Label 
+                    text="{i18n>DETAILED_INFORMATION_DECISION}" 
+                    design="Bold" />
+                <Text 
+                    text="{
+                        parts: ['mDetailedInformationDialog>/statusID', 'mDetailedInformationDialog>/fullnameSignedBy'],
+                        formatter:'.formatter.formatDecitionText'}"/>
+                <Label 
+                    text="{i18n>DETAILED_INFORMATION_COMMENTS}" 
+                    design="Bold"
+                    visible="{= !!${mDetailedInformationDialog>/comments} }"/>
+                <Text 
+                    text="{mDetailedInformationDialog>/comments}" 
+                    visible="{= !!${mDetailedInformationDialog>/comments} }" />
+            </form:SimpleForm>
+        </content>
+        
+        <buttons>
+            <Button 
+            text="{i18n>DETAILED_INFORMATION_CLOSE}"
+            type="Reject"
+            press="onCloseDetailedInformationDialog"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

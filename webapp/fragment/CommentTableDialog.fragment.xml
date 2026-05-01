@@ -1,0 +1,28 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		title="{i18n>COMMENT_TABLE_TITLE}"
+		class="sapUiContentPadding"
+		placement="Top">
+		<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button
+					text="{= ${mCommentTableDialog>/action} === 'approve' ? ${i18n>COMMENT_TABLE_APPROVE} : ${i18n>COMMENT_TABLE_REJECT} }"
+                    type="{= ${mCommentTableDialog>/action} === 'approve' ? 'Accept' : 'Reject' }"
+					press="onApproveRejectRequest($event, ${mCommentTableDialog>/action})"
+					enabled="{= ${mCommentTableDialog>/btnEnabled} }" />
+				<Button
+					text="{i18n>COMMENT_TABLE_CLOSE}"
+					press="onCloseCommentDialog" />
+			</OverflowToolbar>
+		</footer>
+		<TextArea
+			value="{mCommentTableDialog>/comment}"
+			placeholder="{i18n>COMMENT_TABLE_PLACEHOLDER}"
+			liveChange="onLiveChangeComment"
+			rows="2"
+			width="100%"/>
+	</Popover>
+</core:FragmentDefinition>

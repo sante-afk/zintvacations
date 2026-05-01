@@ -1,0 +1,57 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:core="sap.ui.core" 
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form">
+    <Dialog 
+        class="sapUiNoContentPadding centered-dialog-header" 
+        showHeader="false" 
+        title="{i18n>EMPLOYEE_INFORMATION_TITLE}" >
+        <content>
+            <VBox 
+                renderType="Bare" 
+                alignItems="Center">
+                <f:Avatar
+                    class="sapUiTinyMarginTop"
+                    displaySize="Custom"
+                    customDisplaySize="64px"
+                    src="{mEmployeeInformationDialog>/photo}" />
+                <form:SimpleForm
+                    layout="ResponsiveGridLayout"
+                    adjustLabelSpan="false"
+                    singleContainerFullSize="false">
+                    <form:content >
+                        <Title 
+                            text="{mEmployeeInformationDialog>/fullname}"/>
+                        <Label 
+                            text="{i18n>EMPLOYEE_INFORMATION_ID}" 
+                            design="Bold"/>
+                        <Text 
+                            text="{mEmployeeInformationDialog>/pernr}"/>
+                        <Label 
+                            text="{i18n>EMPLOYEE_INFORMATION_POSITION}" 
+                            design="Bold"/>
+                        <Text 
+                            text="{path: 'mEmployeeInformationDialog>/pernr', formatter: '.formatter.formatPosition'}"/>
+                        <Label 
+                            text="{i18n>EMPLOYEE_INFORMATION_DEPARTAMENT_LABLE}" 
+                            design="Bold"/>
+                        <Text 
+                            text="{path: 'mEmployeeInformationDialog>/department', formatter: '.formatter.formatDepartment'}"/>
+                    </form:content>
+                </form:SimpleForm>
+            </VBox>
+        </content>
+        <buttons>
+            <Button 
+                text="{i18n>EMPLOYEE_INFORMATION_REQUEST}" 
+                type="Emphasized" 
+                press="onOpenCreateVacationDialog"/>
+            <Button 
+                text="{i18n>EMPLOYEE_INFORMATION_CLOSE}" 
+                type="Reject" 
+                press="onCloseEmployeeInformationDialog" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

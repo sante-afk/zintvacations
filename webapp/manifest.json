@@ -1,0 +1,113 @@
+{
+	"_version": "1.0.0",
+	"sap.app": {
+		"id": "ssg.lk.zintvacations",
+		"type": "application",
+		"dataSources": {
+			"zintVacations": {
+				"uri": "/sap/opu/odata/sap/ZINT_VACATIONS_SRV",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0",
+					"localUri": "localservice/metadata.xml"
+				}
+			}
+		},
+		"i18n": "i18n/i18n.properties",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
+		"title": "{{APP_TITLE}}",
+		"description": "{{APP_DESCRIPTION}}",
+		"sourceTemplate": {
+			"id": "ui5template.basicSAPUI5ApplicationProject",
+			"version": "1.40.12"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"icons": {
+			"icon": "",
+			"favIcon": "",
+			"phone": "",
+			"phone@2": "",
+			"tablet": "",
+			"tablet@2": ""
+		},
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		},
+		"supportedThemes": [
+			"sap_hcb",
+			"sap_belize"
+		],
+		"fullWidth": true
+	},
+	"sap.ui5": {
+		"handleValidation": true,
+		"dependencies": {
+			"minUI5Version": "1.65.6",
+			"libs": {
+				"sap.m": {}
+			}
+		},
+		"rootView": "ssg.lk.zintvacations.view.App",
+		"models": {
+			"": {
+				"dataSource": "zintVacations",
+				"settings": {
+					"defaultBindingMode": "TwoWay",
+					"refreshAfterChange": false
+				}
+			},
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "ssg.lk.zintvacations.i18n.i18n"
+				}
+			}
+		},
+		"contentDensities": {
+			"compact": true,
+			"cozy": true
+		},
+		"flexEnabled": false,
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"async": true,
+				"viewPath": "ssg.lk.zintvacations.view",
+				"controlAggregation": "pages",
+				"controlId": "app"
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "main",
+					"target": "mainTarget"
+				}
+			],
+			"targets": {
+				"mainTarget": {
+					"viewName": "Main",
+					"viewType": "XML",
+					"transition": "fade"
+				}
+			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "css/style.css"
+				}
+			]
+		}
+	},
+	"sap.platform.abap": {
+		"uri": "/sap/bc/ui5_ui5/sap/zintvacations_ui5/webapp",
+		"_version": "1.1.0"
+	}
+}

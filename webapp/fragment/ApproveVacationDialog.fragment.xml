@@ -1,0 +1,229 @@
+<core:FragmentDefinition
+    xmlns="sap.m" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:core="sap.ui.core" 
+    xmlns:f="sap.f" 
+    xmlns:form="sap.ui.layout.form" 
+    xmlns:t="sap.ui.table" 
+    xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <Dialog
+        showHeader="true"
+        contentWidth="100%"
+        title="{i18n>APPROVAL_VACATION_TITLE_NAME}" 
+        class="centered-dialog-header">
+        <content>
+            <IconTabBar 
+                selectedKey="{mApproveVacationDialog>/selectedKey}">
+                <items>
+                    <IconTabFilter
+                        text="{i18n>APPROVAL_VACATION_ALL}"
+                        key="approve">
+                        <t:Table 
+                            id="idApproveTable" 
+                            rows="{mMain>/requests/results}" 
+                            enableSelectAll="false"
+                            enableColumnReordering="false" 
+                            rowSelectionChange="onSelectApproveVacationRow"
+                            rowHeight="50px" 
+                            selectionMode="Single" 
+                            cellClick="onCellClick">
+                            <t:extension>
+                                <Toolbar>
+                                    <SearchField
+                                        class="seacrh-field-margin-begin"
+                                        value="{mAddEmployeesDialog>/searchValue}"
+                                        placeholder="{i18n>APPROVAL_VACATION_SEARCH_PLACEHOLDER}"
+                                        width="{= !!${mMain>/isMobile} ? 'auto' : '30rem'}" 
+                                        liveChange="onSearchVacationDialog" />
+                                    <ToolbarSpacer/>
+                                </Toolbar>
+                            </t:extension>
+                            <t:columns>
+                                <t:Column
+                                    visible="{= !!${mMain>/isMobile} }"
+                                    resizable="false">
+                                    <Label 
+                                        text="{i18n>APPROVAL_VACATION_FIO}" />
+                                    <t:template>
+                                        <VBox>
+                                            <HBox>
+                                                <ObjectStatus
+                                                    class="sapUiTinyMarginEnd"
+                                                    text="{mMain>pernr}"
+                                                    inverted="true"
+                                                    state="None" />
+                                            </HBox>
+                                            <Text 
+                                                text="{mMain>fullname}" />
+                                        </VBox>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column
+                                    visible="{= !${mMain>/isMobile} }">
+                                    <Label 
+                                        text="{i18n>APPROVAL_VACATION_FIO}" />
+                                    <t:template>
+                                        <HBox>
+                                            <HBox>
+                                                <ObjectStatus
+                                                    class="sapUiTinyMarginEnd"
+                                                    text="{mMain>pernr}"
+                                                    inverted="true"
+                                                    state="None" />
+                                            </HBox>
+                                            <Text 
+                                                text="{mMain>fullname}" />
+                                        </HBox>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column 
+                                    width="12rem" 
+                                    resizable="false"
+                                    visible="{= !${mMain>/isMobile} }">
+                                    <Label 
+                                        text="{i18n>APPROVAL_VACATION_TYPE_REQUEST}" />
+                                    <t:template>
+                                        <Text 
+                                            text="{
+                                                parts: ['mMain>leaveType'],
+                                                formatter: '.formatter.formatAward'}" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column 
+                                    width="6.5rem" 
+                                    resizable="false"
+                                    visible="{= !${mMain>/isMobile} }">
+                                    <Label 
+                                        text="{i18n>APPROVAL_VACATION_START_DATE}" />
+                                    <t:template>
+                                        <Text 
+                                            text="{path: 'mMain>startDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column 
+                                    width="6.5rem" 
+                                    resizable="false"
+                                    visible="{= !${mMain>/isMobile} }">
+                                    <Label 
+                                        text="{i18n>APPROVAL_VACATION_END_DATE}" />
+                                    <t:template>
+                                        <Text 
+                                            text="{path: 'mMain>endDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                                    </t:template>
+                                </t:Column>
+                                <t:Column 
+                                    width="12rem" 
+                                    resizable="false">
+                                    <Label 
+                                        text="{i18n>APPROVAL_VACATION_DOCS}" />
+                                    <t:template>
+                                        <HBox 
+                                            width="100%" 
+                                            justifyContent="Center" 
+                                            alignItems="Center">
+                                            <Button
+                                                class="sapUiTinyMarginEnd"
+                                                type="Accept"
+                                                icon="sap-icon://add-document"
+                                                press="onOpenUploadOrderDialog"
+                                                tooltip="{i18n>APPROVAL_VACATION_DOCS_ADD}" />
+                                            <MenuButton
+                                                text="{i18n>APPROVAL_VACATION_DOCS_VIEW}"
+                                                enabled="{= ${mMain>docsSet/results}.length !== 0 }">
+                                                <menu>
+                                                    <Menu 
+                                                        items="{path: 'mMain>docsSet/results', templateShareable: false}">
+                                                        <MenuItem
+                                                            text="{mMain>doctype}">
+                                                            <items>
+                                                                <MenuItem
+                                                                    icon="sap-icon://download"
+                                                                    text="{mMain>fileName}"
+                                                                    press="onDownloadSignedDocument" />
+                                                                <MenuItem
+                                                                    icon="sap-icon://delete"
+                                                                    text="{i18n>APPROVAL_VACATION_DOCS_DELETE}"
+                                                                    press="onDeleteVacationDocDocuments" />
+                                                            </items>
+                                                        </MenuItem>
+                                                    </Menu>
+                                                </menu>
+                                            </MenuButton>
+                                        </HBox>
+                                    </t:template>
+                                </t:Column>
+                            </t:columns>
+                        </t:Table>
+                    </IconTabFilter>
+                    
+                    <IconTabFilter
+                        text="{i18n>APPROVAL_VACATION_ALL_APPLICATIONS}"
+                        key="requests">
+                        <t:Table
+                            id="idTableHRRequests"
+                            rows="{mCalendar>/rows}"
+                            enableSelectAll="false"
+                            enableColumnReordering="false"
+                            rowHeight="50px"
+                            selectionMode="Single"
+                            rowSelectionChange="onSelectApproveVacationRow"
+                            cellClick="onCellClick">
+                            <t:extension>
+                                <Toolbar>
+                                    <SearchField
+                                        class="seacrh-field-margin-begin"
+                                        value="{mAddEmployeesDialog>/searchValue}"
+                                        placeholder="{i18n>APPROVAL_VACATION_SEARCH_PLACEHOLDER}"
+                                        width="{= !!${mMain>/isMobile} ? 'auto' : '30rem'}"
+                                        liveChange="onSearchVacationDialog" />
+                                    <ToolbarSpacer/>
+                                </Toolbar>
+                            </t:extension>
+                            <t:Column
+                                resizable="false">
+                                <Label 
+                                    text="{i18n>APPROVAL_VACATION_FIO}" />
+                                <t:template>
+                                    <HBox>
+                                        <ObjectStatus
+                                            class="sapUiTinyMarginEnd"
+                                            text="{mCalendar>pernr}"
+                                            inverted="true"
+                                            state="None" />
+                                        <Text 
+                                            text="{mCalendar>fullname}" />
+                                    </HBox>
+                                </t:template>
+                            </t:Column>
+                        </t:Table>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+        <buttons>
+            <Button
+                text="{i18n>APPROVAL_VACATION_APPROVE}"
+                type="Accept"
+                press="onOpenCommentDialog($event, 'approve')"
+                enabled="{= !!${mApproveVacationDialog>/enabledApproveReject} }"
+                visible="{= ${mApproveVacationDialog>/selectedKey} === 'approve' }" />
+            <Button
+                text="{i18n>APPROVAL_VACATION_REJECT}"
+                type="Reject"
+                press="onOpenCommentDialog($event, 'reject')"
+                enabled="{= !!${mApproveVacationDialog>/enabledApproveReject} }"
+                visible="{= ${mApproveVacationDialog>/selectedKey} === 'approve' }" />
+           
+            <!-- onOpenEmployeeVacationDialog for HR -->
+            <Button
+                text="{i18n>APPROVAL_VACATION_OPEN_REQUESTS}"
+                type="Emphasized"
+                press="onOpenEmployeeVacationDialog"
+                enabled="{= !!${mApproveVacationDialog>/enabledOpen} }"
+                visible="{= ${mApproveVacationDialog>/selectedKey} === 'requests' }" />
+            <Button 
+                text="{i18n>APPROVAL_VACATION_CLOSE}" 
+                press="onCloseApproveVacationDialog" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,317 @@
+.sapFDynamicPageContentFitContainer {
+    padding: 0 !important;
+}
+
+.sapFDynamicPageContent {
+    padding: 0 !important;
+    margin: 0;
+}
+
+.selectedRow {
+    background-color: #d3d3d3;
+}
+
+.stickyContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.topSimpleForm{
+    margin-top: 10px;
+}
+
+.count-days-vac-left-box {
+    position: absolute;
+    left: -16px;
+    top: 11px;
+}
+
+.count-days-vac-mobile-left-box {
+    position: absolute;
+    left: -16px;
+    top: 4px;
+}
+
+.count-days-box {
+    position: absolute;
+    left: -16px;
+    bottom: 41px;
+}
+.count-days-box > div > span[data-daysok="true"] {
+    color: #107e3e !important;
+}
+.count-days-box > div > span[data-daysok="false"] {
+    color: #ff0000 !important;
+}
+.count-days-box-mobile {
+    position: absolute;
+    left: -16px;
+    bottom: 46px;
+}
+
+.count-days-box-change{
+    position: absolute;
+    left: -16px;
+    top: 17px;
+}
+
+.count-days-box-change > div > span{
+    color: #107e3e !important;
+}
+
+.planningCalendar .sapUiCalendarAppArrowIconLeft,
+.planningCalendar .sapUiCalendarAppArrowIconRight,
+.planningCalendar .sapMSegB,
+.planningCalendar .sapMPCHeadNavToolbar {
+    display: none;
+}
+
+.customScrollContainer{
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.customScrollContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.customScrollContainer::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.customScrollContainer::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.customScrollContainer::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.customScrollContainerNonScroll::-webkit-scrollbar {
+    display: none;
+}
+
+.customTitle {
+    text-align: center;
+    font-size: 19px; 
+    font-weight: bold; 
+    color: #333; 
+    margin: 15px 15px
+}
+
+.customSeparator {
+    border-top: 1px solid #ccc; 
+    margin-top: 20px;
+    width: 100%; 
+}
+
+.avatarLeft{
+    margin-left: -100px;
+}
+
+
+.counter-badge {
+    transition: all 0.3s ease-in-out;
+}
+
+.counter-badge-update {
+    transform: scale(1.2);
+    transition: all 0.3s ease-in-out;
+}
+
+.sapMPlanCal .sapUiCalendarRowAppsInt {
+    cursor: pointer;
+    min-height: 2.5rem;
+    transition: background-color 0.2s;
+}
+
+.sapMPlanCal .sapUiCalendarRowAppsInt:hover {
+    background-color: rgba(0, 112, 242, 0.05);
+}
+
+
+.iconTabFilterEmpInf{
+    align-items: center;
+}
+
+.custom-list {
+    background-color: white !important;
+    z-index: none;
+}
+.custom-list .sapMLIB {
+    width: auto;
+    padding: 0;
+    margin: 0.3rem;
+    border: 1px solid #e5e5e5;
+    box-shadow: inset 0 -0.0625rem #d9d9d9;
+    border-radius: 0.7rem;
+    align-items: flex-start !important;
+}
+
+.custom-icon-tab .sapMITBContent {
+    border-bottom: none !important;
+}
+
+.simpleFormX-Position{
+    overflow-x: hidden;
+}
+
+.centered-dialog-header .sapMBarPH {
+    text-align: center; 
+}
+
+.centered-dialog-header .sapMBarContainer {
+    justify-content: center; 
+}
+
+.centered-vacation-dialog-header .sapMBarContainer {
+    justify-content: center; 
+}
+
+.centered-vacation-dialog-header .sapMBarPH {
+    text-align: center; 
+}
+
+.sapMITBContent{
+    padding: 0 !important;
+}
+
+.sapMBtn .sapMBtnInner {
+    transition: all 0.3s ease !important;
+}
+
+
+.sapMTB-Transparent-CTX .sapMBtnInner {
+    transition: all 0.3s ease !important;
+}
+
+.sapUiCalDatesRow  {
+    pointer-events: none !important;
+}
+
+.sapMOTAPadding .sapMBtnInner {
+    transition: all 0.3s ease !important;
+}
+
+
+.sapMBtn .sapMBtnIcon {
+    transition: all 0.3s ease !important;
+}
+
+.light-red{
+    color: rgba(255, 0, 0) !important;
+}
+
+.textAccountIcon{
+    margin-right: 4px;
+    margin-bottom: 12px;
+    border: 2px solid #000;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+}
+
+.custom-alert-button{
+    position: relative;
+}
+
+.custom-alert-button::after{
+    content: attr(data-badge);
+    position: absolute;
+    top: -0.4rem;
+    right: -0.4rem;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    min-width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 0.75rem;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.custom-alert-button[data-badge]::after{
+    margin-top: 8px;
+}
+
+.custom-alert-button[data-badge="0"]::after{
+    display: none;
+}
+
+.custom-alert-button[data-isMobile]::after{
+    margin-top: 8px;
+}
+
+.custom-alert-button[data-isMobile="0"]::after{
+    display: none;
+}
+
+.custom-alert-button[data-badge]:not([data-badge="0"]) {
+    border-color: #ff0000 !important;
+    color: #ff0000 !important;
+}
+
+.with-border {
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    padding: 5px; 
+    margin: 5px;
+    background-color: #007bff;
+}
+
+.text-margin{
+    margin-top: 6px;
+}
+
+.panel-buttom{
+    bottom: 10px;
+}
+
+.text-top{
+    margin-top: 15px;
+}
+
+.count-requests {
+    display: flex;
+    justify-content: center;
+    background-color: #bb0000;
+    color: white !important;
+    padding: 7px;
+    position: relative;
+    left: -22px;
+    top: -7px;
+    border-radius: 100%;
+    font-size: 12px;
+    width: 30px;
+}
+
+.seacrh-field-margin-begin {
+    margin-left: 1.6rem !important
+}
+
+.count-requests-mobile {
+    display: flex;
+    justify-content: center;
+    background-color: #bb0000;
+    color: white !important;
+    padding: 5px;
+    position: relative;
+    left: -13px;
+    border-radius: 100%;
+    font-size: 12px;
+    width: 25px;
+}

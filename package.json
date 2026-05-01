@@ -1,0 +1,29 @@
+{
+  "name": "zintvacations",
+  "version": "0.0.1",
+  "description": "",
+  "devDependencies": {
+    "@ui5/cli": "^2.14.20",
+    "braintree-jsdoc-template": "3.3.0",
+    "jsdoc": "3.6.10",
+    "jsdoc-to-markdown": "7.1.1",
+    "ui5-middleware-simpleproxy": "^0.2.1",
+    "ui5-task-nwabap-deployer": "^1.0.15"
+  },
+  "scripts": {
+    "start": "ui5 serve --open",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint webapp",
+    "build": "ui5 build --exclude-task escapeNonAsciiCharacters ui5-task-nwabap-deployer --clean-dest --dest=./dist/WebContent/",
+    "deploy": "ui5 build --exclude-task escapeNonAsciiCharacters --clean-dest",
+    "build-docs": "jsdoc -c jsdoc.conf.json",
+    "build-docsmd": "jsdoc2md webapp/**/** -t template.hbs --private > README.md"
+  },
+  "ui5": {
+    "dependencies": [
+      "ui5-middleware-simpleproxy",
+      "ui5-task-nwabap-deployer"
+    ]
+  },
+  "private": "true"
+}

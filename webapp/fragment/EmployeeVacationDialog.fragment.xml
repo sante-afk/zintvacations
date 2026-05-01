@@ -1,0 +1,254 @@
+<core:FragmentDefinition
+    xmlns:vbm="sap.ui.vbm" 
+    xmlns="sap.m" 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns:core="sap.ui.core" 
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:form="sap.ui.layout.form">
+    <Dialog
+        class="centered-dialog-header" 
+        showHeader="true" 
+        title="{i18n>EMPLOYEE_VACATION_TITLE}"
+        contentWidth="100%"
+        contentHeight="100%">
+        <content>
+            <IconTabBar 
+                class="sapUiNoContentPadding custom-icon-tab"
+                headerMode="Inline"
+                expandable="false" 
+                expanded="true" 
+                select="onIconTabSelect">
+                <items>
+                    <IconTabFilter 
+                        text="{i18n>EMPLOYEE_VACATION_PENDING_APPLICATION}" 
+                        key="employeeinfo"
+                        count="{
+                            parts: ['mMain>/requests/results'],
+                            formatter: '.formatter.getPendingCount'
+                        }">
+                        <grid:CSSGrid
+                            width="100%" 
+                            class="custom-list" 
+                            gridTemplateColumns="{= !!${mMain>/isMobile} ? '1fr' : '1fr 1fr 1fr'}"
+                            gridRowGap="auto"
+                            gridColumnGap="auto"
+                            gridAutoFlow="RowDense"
+                            items="{
+                                path: 'mMain>/requests/results',
+                                filters: [
+                                    { path: 'statusID', operator: 'EQ', value1: '01' }
+                                ],
+                                sorter: { path: 'startDate', descending: true }
+                            }">
+                            <CustomListItem
+                                class="sapUiTinyMargin"
+                                type="Active"
+                                press="onSelectionDeleteChange"
+                                selected="{mMain>isSelected}">
+                                <form:SimpleForm
+                                    layout="ResponsiveGridLayout"
+                                    adjustLabelSpan="false"
+                                    singleContainerFullSize="false">
+                                    <Label 
+                                        text="{i18n>EMPLOYEE_VACATION_TYPE}" 
+                                        design="Bold"/>
+                                    <Text 
+                                        text="{
+                                            parts: ['mMain>leaveType'],
+                                            formatter: '.formatter.formatAward'}" />
+                                    <Label 
+                                        text="{i18n>EMPLOYEE_VACATION_DATES}" 
+                                        design="Bold"/>
+                                    <HBox 
+                                        visible="{= !!${mMain>startDate} &amp;&amp; !!${mMain>endDate} }">
+                                        <Text 
+                                            text="{path: 'mMain>startDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                                        <Text 
+                                            class="sapUiTinyMarginBeginEnd" text="-" />
+                                        <Text 
+                                            text="{path: 'mMain>endDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                                    </HBox>
+                                    <Label 
+                                        text="{i18n>EMPLOYEE_VACATION_STATUS}" 
+                                        design="Bold"/>
+                                    <ObjectStatus
+                                        text="{
+                                            parts: [
+                                                'mMain>statusID',
+                                                'mMain>docId'
+                                            ],
+                                            formatter: '.formatter.formatStatus'}"
+                                        inverted="true"
+                                        state="{= ${mMain>statusID} === '01' &amp;&amp; !${mMain>docId} ? 'Error' : 'None' }" />
+                                    <HBox>
+                                        <Button 
+                                            class="sapUiTinyMarginEnd" 
+                                            icon="sap-icon://download"
+                                            tooltip="{i18n>EMPLOYEE_VACATION_DOWNLOAD_EMPTY_TOOLTIP}"
+                                            press="onDownloadEmptyDocument"
+                                            visible="{
+                                                parts: [
+                                                    'mMain>statusID',
+                                                    'mMain>docId'],
+                                                formatter: '.formatter.formatVisibleButton'}"/>
+                                        
+                                        <Button
+                                            class="sapUiTinyMarginEnd" 
+                                            icon="sap-icon://add-document"
+                                            tooltip="{i18n>EMPLOYEE_VACATION_FILE_UPLOAD_TOOLTIP}"
+                                            press="onOpenUploadOrderDialog" />
+
+                                        <MenuButton
+                                            text="{i18n>APPROVAL_VACATION_DOCS_VIEW}"
+                                            enabled="{= ${mMain>docsSet/results}.length !== 0 }">
+                                            <menu>
+                                                <Menu                                               
+                                                    items="{path: 'mMain>docsSet/results', templateShareable: false}">
+                                                    <MenuItem 
+                                                        text="{mMain>doctype}">
+                                                        <items>
+                                                            <MenuItem
+                                                                icon="sap-icon://download"
+                                                                text="{= ${mMain>fileName} || ${i18n>EMPLOYEE_VACATION_FILE_DOWNLOAD}}"
+                                                                press="onDownloadSignedDocument"/>
+                                                            <MenuItem
+                                                                icon="sap-icon://delete"
+                                                                text="{i18n>APPROVAL_VACATION_DOCS_DELETE}"
+                                                                press="onDeleteVacationDocDocuments" />
+                                                        </items>
+                                                    </MenuItem>
+                                                </Menu>
+                                            </menu>
+                                        </MenuButton>
+                                    </HBox>
+                                </form:SimpleForm>
+                            </CustomListItem>
+                        </grid:CSSGrid>
+                    </IconTabFilter>
+
+                    <IconTabFilter 
+                        text="{i18n>EMPLOYEE_VACATION_REVIEWED_APPLICATION}" 
+                        key="employeeinfoinfo"
+                        count="{
+                            parts: ['mMain>/requests/results'],
+                            formatter: '.formatter.getReviewedCount'
+                        }">
+                        <grid:CSSGrid 
+                            width="100%"
+                            class="custom-list"
+                            gridTemplateColumns="{= !!${mMain>/isMobile} ? '1fr' : '1fr 1fr 1fr'}"
+                            gridRowGap="auto"
+                            gridColumnGap="auto"
+                            gridAutoFlow="RowDense"
+                            items="{
+                                path: 'mMain>/requests/results',
+                                filters: [
+                                    { path: 'statusID', operator: 'NE', value1: '01' }
+                                ],
+                                sorter: { path: 'startDate', descending: true }
+                            }">
+                            <CustomListItem
+                                class="sapUiTinyMargin"
+                                press="onSelectionDeleteChange"
+                                selected="{mMain>isSelected}">
+                                <form:SimpleForm
+                                    layout="ResponsiveGridLayout"
+                                    adjustLabelSpan="false"
+                                    singleContainerFullSize="false">
+                                    <ObjectStatus
+                                        text="{i18n>EMPLOYEE_VACATION_DOCS_NOT_SIGNED}"
+                                        inverted="true"
+                                        state="Error" 
+                                        visible="{= ${mMain>statusID} === '01' &amp;&amp; !${mMain>docId} }" />
+                                        
+                                    <Label 
+                                        text="{i18n>EMPLOYEE_VACATION_TYPE}" 
+                                        design="Bold"/>
+                                    <Text 
+                                        text="{
+                                            parts: ['mMain>leaveType'],
+                                            formatter: '.formatter.formatAward'}" />
+                                    <Label 
+                                        text="{i18n>EMPLOYEE_VACATION_DATES}" 
+                                        design="Bold"/>
+                                    <HBox 
+                                        visible="{= !!${mMain>startDate} &amp;&amp; !!${mMain>endDate} }">
+                                        <Text 
+                                            text="{path: 'mMain>startDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                                        <Text 
+                                            class="sapUiTinyMarginBeginEnd" text="-" />
+                                        <Text 
+                                            text="{path: 'mMain>endDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                                    </HBox>
+                                    <Label 
+                                        text="{i18n>EMPLOYEE_VACATION_STATUS}" 
+                                        design="Bold"/>
+                                    <ObjectStatus
+                                        text="{
+                                            parts: ['mMain>statusID'],
+                                            formatter: '.formatter.formatStatus'}"
+                                        inverted="true"
+                                        state="{= ${mMain>statusID} === '02' ? 'Error' : 'Success' }" /> 
+
+                                    <HBox justifyContent="SpaceBetween">
+                                        <HBox>
+                                            <Button
+                                                class="sapUiTinyMarginEnd" 
+                                                icon="sap-icon://add-document"
+                                                tooltip="{i18n>EMPLOYEE_VACATION_FILE_UPLOAD_TOOLTIP}"
+                                                press="onOpenUploadOrderDialog" />
+                                            
+                                            <MenuButton
+                                                class="sapUiTinyMarginEnd"
+                                                text="{i18n>APPROVAL_VACATION_DOCS_VIEW}"
+                                                enabled="{= ${mMain>docsSet/results}.length !== 0 }">
+                                                <menu>
+                                                    <Menu                                               
+                                                        items="{path: 'mMain>docsSet/results', templateShareable: false}">
+                                                        <MenuItem 
+                                                            text="{mMain>doctype}">
+                                                            <items>
+                                                                <MenuItem
+                                                                    icon="sap-icon://download"
+                                                                    text="{= ${mMain>fileName} || ${i18n>EMPLOYEE_VACATION_FILE_DOWNLOAD}}"
+                                                                    press="onDownloadSignedDocument"/>
+                                                                <MenuItem
+                                                                    icon="sap-icon://delete"
+                                                                    text="{i18n>APPROVAL_VACATION_DOCS_DELETE}"
+                                                                    press="onDeleteVacationDocDocuments"
+                                                                    enabled="false" />
+                                                            </items>
+                                                        </MenuItem>
+                                                    </Menu>
+                                                </menu>
+                                            </MenuButton>
+                                        </HBox>
+                                        <Button 
+                                            icon="sap-icon://hint"
+                                            press="onOpenDetailedInformationDialog"
+                                            tooltip="{i18n>DETAILED_INFORMATION_TITLE}" />
+                                    </HBox>
+                                </form:SimpleForm>
+                            </CustomListItem>
+                        </grid:CSSGrid>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>             
+        </content>
+        <buttons>            
+            <Button
+                id="DeleteButton" 
+                text="{i18n>EMPLOYEE_VACATION_DELETE_APPLICATION}" 
+                type="{= ${mMain>/selected/statusID} === '01' ? 'Emphasized' : 'Ghost' }"
+                icon="{= ${mMain>/selected/statusID} !== '01' ? 'sap-icon://alert' : '' }"
+                press="onDeleteVacation"
+                enabled="false"
+                tooltip="{= ${mMain>/selected/statusID} !== '01' ? ${i18n>EMPLOYEE_VACATION_DELETE_APPLICATION_WARNING} : '' }"
+                visible="{= ${mActiveFilterModel>/activeFilter} === 'employeeinfo' &amp;&amp; ${mPersonal>/role} !== 'HR' }"/>    
+            <Button 
+                text="{i18n>EMPLOYEE_VACATION_CLOSE}" 
+                type="Reject" 
+                press="onCloseEmployeeVacationDialog"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

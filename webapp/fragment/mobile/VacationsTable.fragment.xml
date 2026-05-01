@@ -1,0 +1,93 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table">
+    <t:TreeTable
+        id="treeTableMobile"
+        width="100%"
+        rows="{
+            path: 'mCalendar>/rows',
+            templateShareable: false,
+            parameters: {
+                arrayNames: ['vacSet'],
+                numberOfExpandedLevels: 0
+            }
+        }"
+        rowHeight="50px"
+        selectionMode="None"
+        enableSelectAll="false"
+        columnHeaderVisible="false"
+        cellClick="onOpenVacationDialog"
+        visible="{= !!${mMain>/isMobile} }">
+        <t:extension>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                    <HBox>
+                        <Button
+                            class="sapUiTinyMarginEnd"
+                            text="{= ${mPersonal>/role} === 'HR' ? ${i18n>VACATION_TABLE_CREATE_ROLE_HR} : ${i18n>VACATION_TABLE_CREATE_ROLE_EMPLOYEE} }"
+                            type="Emphasized" 
+                            tooltip="{i18n>VACATION_TABLE_TOOLTIP_CREATE_VACATION}"
+                            press="onOpenCreateVacationDialog" />
+
+                        <HBox
+                            visible="{= ${mPersonal>/role} === 'HR'}">
+                            <Button 
+                                class="custom-alert-button"
+                                text="{i18n>VACATION_TABLE_TITLE_NAME}"
+                                icon="{= ${mMain>/count} > 0 ? 'sap-icon://alert' : 'sap-icon://request'}"
+                                type="{= ${mMain>/count} > 0 ? 'Reject' : 'Ghost'}"
+                                tooltip="{i18n>VACATION_TABLE_TOOLTIP_APPROVAL_REJECT}"
+                                press="onOpenApproveVacationDialog">
+                                <customData>
+                                    <core:CustomData
+                                        class="sapUiSmallMarginTop"
+                                        key="isMobile"
+                                        value="{= ${mMain>/count}.toString() }" 
+                                        writeToDom="true" />
+                                </customData>
+                            </Button>
+                            <Text
+                                class="count-requests-mobile"
+                                text="{mMain>/count}"
+                                visible="{= ${mMain>/count} > 0 }" />
+                        </HBox>
+                        
+                        <HBox 
+                            visible="{= ${mPersonal>/role} === 'EMPLOYEE'}">
+                            <Button
+                                class="sapUiTinyMarginEnd "
+                                text="{i18n>PLANNING_CALENDAR_VACATION}"
+                                icon="sap-icon://timesheet"
+                                type="Ghost"
+                                press="onOpenEmployeeVacationDialog">
+                            </Button>
+                        </HBox>
+                    </HBox>
+            </OverflowToolbar>
+        </t:extension>
+        <t:columns>
+            <t:Column>
+                <Label 
+                    text="" />
+                <t:template>
+                    <HBox 
+                        alignItems="Center" height="100%">
+                        <Text 
+                            text="{mCalendar>fullname}" visible="{= !!${mCalendar>fullname} }" />
+
+                        <HBox 
+                            visible="{= !!${mCalendar>startDate} &amp;&amp; !!${mCalendar>endDate} }">
+                            <Text 
+                                text="{path: 'mCalendar>startDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                            <Text 
+                                class="sapUiTinyMarginBeginEnd" text="-" />
+                            <Text 
+                                text="{path: 'mCalendar>endDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                        </HBox>
+                    </HBox>
+                </t:template>
+            </t:Column>
+        </t:columns>
+    </t:TreeTable>
+</core:FragmentDefinition>

@@ -1,0 +1,132 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:unified="sap.ui.unified">
+    <ScrollContainer 
+        vertical="true" 
+        class="customScrollContainer"
+        visible="{= !${mMain>/isMobile} }">
+        <PlanningCalendar
+            id="PlanningCalendar"
+            class="planningCalendar"
+            startDate="{mCalendarSettings>/startDate}"
+            rows="{mCalendar>/rows}"
+            appointmentsVisualization="Filled"
+            appointmentSelect="onOpenVacationDialog"
+            groupAppointmentsMode="Expanded"
+            showEmptyIntervalHeaders="false"
+            rowHeaderClick="onOpenEmployeeInformationDialog"
+            viewKey="{mCalendarSettings>/viewKey}"
+            intervalSelect="onIntervalSelect"
+            stickyHeader="true">
+            <toolbarContent>
+                <HBox>
+                    <Button
+                        class="sapUiTinyMarginEnd"
+                        text="{= ${mPersonal>/role} === 'HR' ? ${i18n>PLANNING_CALENDAR_CREATE_VACATION_ROLE_HR} : ${i18n>PLANNING_CALENDAR_CREATE_VACATION_ROLE_EMPLOYEE} }"
+                        type="Emphasized" 
+                        tooltip="{i18n>PLANNING_CALENDAR_TOOLTIP_CREATE_VACATION}"
+                        press="onOpenCreateVacationDialog" />
+                    <HBox 
+                        visible="{= ${mPersonal>/role} === 'HR' }">
+                        <Button
+                            class="sapUiTinyMarginEnd custom-alert-button"
+                            text="{i18n>APPROVAL_VACATION_TITLE_NAME}"
+                            icon="{= ${mMain>/count} > 0 ? 'sap-icon://alert' : 'sap-icon://request'}"
+                            type="{= ${mMain>/count} > 0 ? 'Reject' : 'Ghost'}"
+                            tooltip="{i18n>PLANNING_CALENDAR_TOOLTIP_APPROVAL_REJECT}"
+                            press="onOpenApproveVacationDialog">
+                            <customData>
+                                <core:CustomData 
+                                    key="badge" 
+                                    value="{= ${mMain>/count}.toString() }" 
+                                    writeToDom="true" />
+                            </customData>
+                        </Button>
+                        <Text
+                            class="count-requests"
+                            text="{mMain>/count}"
+                            visible="{= ${mMain>/count} > 0 }" />
+                    </HBox>
+                    <HBox 
+                        visible="{= ${mPersonal>/role} === 'EMPLOYEE'}">
+                        <Button
+                            class="sapUiTinyMarginEnd "
+                            text="{i18n>PLANNING_CALENDAR_VACATION}"
+                            icon="sap-icon://timesheet"
+                            type="Ghost"
+                            press="onOpenEmployeeVacationDialog">
+                        </Button>
+                    </HBox>
+                </HBox>
+            </toolbarContent>
+            <views>
+				<PlanningCalendarView
+                    class="button-month-year"
+					key="M"
+					intervalType="Day"
+					description="{i18n>PLANNING_CALENDAR_DESCRIPTION_MONTH}"
+					intervalsS="{mCalendarSettings>/intervalDate}"
+					intervalsM="{mCalendarSettings>/intervalDate}"
+					intervalsL="{mCalendarSettings>/intervalDate}">
+				</PlanningCalendarView>
+                <PlanningCalendarView
+                    class="button-month-year"
+					key="Y"
+					intervalType="Month"
+					description="{i18n>PLANNING_CALENDAR_DESCRIPTION_YEAR}"
+					intervalsS="{mCalendarSettings>/intervalDate}"
+					intervalsM="{mCalendarSettings>/intervalDate}"
+					intervalsL="{mCalendarSettings>/intervalDate}">
+				</PlanningCalendarView>
+			</views>
+            <rows>
+                <PlanningCalendarRow
+                    icon="{mCalendar>photo}"
+                    title="{mCalendar>fullname}"
+                    text="{
+                        parts: [
+                            {
+                                path: 'mCalendar>pernr'
+                            } 
+                        ],
+                        formatter: '.formatter.formatPosition' }"
+                    appointments="{
+                        path: 'mCalendar>vacSet/',
+                        templateShareable: true }"
+                    intervalHeaders="{
+                        path: 'mCalendar>toHeaders/results/', 
+                        templateShareable: true }"
+                    enableAppointmentsResize="true">
+                    <customData>
+                        <core:CustomData 
+                            key="position" 
+                            value="{mCalendar>position}" />
+                    </customData>
+                    <appointments>
+                        <unified:CalendarAppointment
+                            startDate="{mCalendar>startDate}"
+                            endDate="{mCalendar>endDate}"
+                            icon="{mCalendar>pic}"
+                            title="{
+                                    parts: [ {path: 'mCalendar>leaveType'} ],
+                                    formatter: '.formatter.formatAward' }"
+                            text="{mCalendar>comments}"
+                            type="{mCalendar>type}" 
+                            tentative="{mCalendar>tentative}">
+                        </unified:CalendarAppointment>
+                    </appointments>
+                    <intervalHeaders>
+                        <unified:CalendarAppointment
+                            startDate="{mCalendar>startDate}"
+                            endDate="{mCalendar>endDate}"
+                            icon="{mCalendar>pic}"
+                            title="{mCalendar>leaveType}"
+                            type="{mCalendar>type}">
+                        </unified:CalendarAppointment>
+                    </intervalHeaders>
+                </PlanningCalendarRow>
+            </rows>
+        </PlanningCalendar>
+    </ScrollContainer>
+</core:FragmentDefinition>

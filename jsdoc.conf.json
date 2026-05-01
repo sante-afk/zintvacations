@@ -1,0 +1,31 @@
+{
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc"]
+    },
+    "source": {
+        "include": ["./package.json", "./README.MD", "webapp"],
+        "includePattern": ".+\\.js(doc)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "plugins": [
+        "plugins/markdown"
+    ],
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": false,
+        "useLongnameInNav": false,
+        "showInheritedInNav": true,
+        "referenceTitle": "Заголовок приложения"        
+    },
+    "opts": {
+        "destination": "./docs",
+        "recurse": true,
+        "readme": "README.md",
+        "private": true,
+        "encoding": "utf-8",
+        "mainPageTitle": "Home",
+        "changelog": "./CHANGES.MD",
+        "template": "node_modules/braintree-jsdoc-template"
+    }
+}

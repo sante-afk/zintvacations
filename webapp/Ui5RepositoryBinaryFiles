@@ -1,0 +1,11 @@
+^.*\.ttf$
+^.*\.otf$
+^.*\.less$
+^.*\.svg$
+^.*\.eot$
+^.*\.woff$
+^.*\.woff2$
+^.*\.ico$
+^.*\.embedded-opentype$
+^.*\.truetype$
+^.*\.gif$

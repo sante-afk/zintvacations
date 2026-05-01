@@ -1,0 +1,68 @@
+<core:FragmentDefinition 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core" 
+    xmlns:upload="sap.m.upload"
+    xmlns:cd="http://schemas.sap.com.sapui5/extension/sap.ui.core.CustomData/1">
+    <Dialog 
+        class="sapUiNoContentPadding" 
+        contentWidth="40rem"
+        title="{i18n>UPLOAD_ORDER_TITLE}"
+        verticalScrolling="false"
+        busyIndicatorDelay="0">
+        <content>
+            <VBox>
+                <RadioButtonGroup 
+                    id="radioGroup"
+                    class="sapUiTinyMarginBegin"
+                    columns="2"
+                    selectedIndex="0"
+                    select="onDocTypeChange">
+                    <buttons>
+                        <RadioButton 
+                            text="{i18n>UPLOAD_ORDER_APPLICATION_EMPLOYEE}" 
+                            visible="{= ${mPersonal>/role} === 'EMPLOYEE'}"/>
+                        <RadioButton 
+                            text="{i18n>UPLOAD_ORDER_APPLICATION_HR}" 
+                            visible="{= ${mPersonal>/role} === 'HR'}"/>
+                        <RadioButton 
+                            text="{i18n>UPLOAD_ORDER_OTHER_DOCUMENT}"/>
+                    </buttons>
+                </RadioButtonGroup>
+                <upload:UploadSet 
+                    id="idUploadOrder" 
+                    uploadCompleted="onUploadCompleteOrderFile"
+                    noDataText="{i18n>UPLOAD_ORDER_ERROR}" 
+                    items="{path: 'mUploadOrderDialog>/results'}" 
+                    instantUpload="false"
+                    uploadUrl="/sap/opu/odata/SAP/ZINT_VACATIONS_SRV/FileSet" 
+                    beforeItemAdded="onBeforeAddedOrderFile"
+                    beforeUploadStarts="onBeforeUploadOrderFile" 
+                    fileTypes="pdf" 
+                    afterItemAdded="onAfterAddedOrderFile"
+                    fileTypeMismatch="onFileTypesmathOrderFile"> 
+                    <upload:items>
+                        <upload:UploadSetItem 
+                        fileName="{mUploadOrderDialog>fileName}" 
+                        mediaType="{mUploadOrderDialog>mine}"
+                        url="{
+                            parts: [
+                                'mMain>/requests/results/0/id',
+                                'mMain>/requests/results/0/pernr',
+                                'mMessageTableDialog>/id',
+                                'mMessageTableDialog>/pernr' ],
+                            formatter: '.formatter.getUploadUrl' }"
+                        visibleRemove="false" 
+                        visibleEdit="false" >
+                        </upload:UploadSetItem>
+                    </upload:items>            
+                </upload:UploadSet>
+            </VBox>
+        </content>
+        <buttons>
+            <Button 
+                text="{i18n>UPLOAD_ORDER_CLOSE}" 
+                type="Reject" 
+                press="onCloseUploadOrderDialog" />            
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

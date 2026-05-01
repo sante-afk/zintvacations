@@ -1,0 +1,158 @@
+<mvc:View
+    controllerName="ssg.lk.zintvacations.controller.Main"
+    class="sapUiSizeCompact"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:v="sap.ui.comp.variants"
+    xmlns:filterBar="sap.ui.comp.filterbar"
+    xmlns:control="ssg.lk.zintvacations.control"
+    xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <f:DynamicPage
+        toggleHeaderOnTitleClick="true"
+        showFooter="false"
+        headerExpanded="true">
+        <f:title>
+            <f:DynamicPageTitle>
+                <f:heading>
+                    <Title 
+                        text="{i18n>MAIN_TITLE}" />
+                </f:heading>
+                <f:content>
+                    <Button
+                        iconFirst="false"
+                        icon="sap-icon://open-command-field"
+                        type="Ghost"
+                        text="{i18n>MAIN_REGISTRATION}"
+                        press="onNavReg"
+                        class="sapUiSmallMarginEnd"
+                        visible="{= ${mMain>/isVisible} === true}" />
+                    <Button
+                        iconFirst="false"
+                        icon="sap-icon://open-command-field"
+                        type="Ghost"
+                        text="{i18n>MAIN_PAYMENTS}"
+                        press="onNavPayments"
+                        class="sapUiSmallMarginEnd"
+                        visible="{= ${mMain>/isVisible} === true}" />
+                </f:content>
+                <f:navigationActions></f:navigationActions>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader
+                class="sapUiNoContentPadding"
+                pinnable="false">
+                <f:content>
+                    <filterBar:FilterBar
+                        clear="onClearFilters"
+                        showGoOnFB="false"
+                        showClearOnFB="true"
+                        showClearButton="true"
+                        showFilterConfiguration="false"
+                        useToolbar="{= ${mMain>/isMobile} }">
+                        <filterBar:filterGroupItems>
+                            <filterBar:FilterGroupItem
+                                groupName="main"
+                                name="fio"
+                                mandatory="false"
+                                label="{i18n>MAIN_FIO_LABEL}"
+                                visibleInFilterBar="true">
+                                <filterBar:control>
+                                    <MultiInput
+                                        id="employeeFIOInput"
+                                        placeholder="{i18n>MAIN_FIO_PLACEHOLDER}"
+                                        showSuggestion="true"
+                                        suggestionItems="{ path: '/employeesSet' }"
+                                        suggestionItemSelected="onSuggestionItemSelected"
+                                        tokens="{ 
+                                            path: 'mFilters>/filtersPernr',
+                                            sorter: { path: 'pernr' } }"
+                                        tokenUpdate="onTokenUpdate"
+                                        showValueHelp="false">                                        
+                                        <suggestionItems>
+                                            <core:ListItem 
+                                                text="{fullname}"/>
+                                        </suggestionItems>
+                                        <tokens>
+                                            <Token 
+                                                key="{mFilters>pernr}" 
+                                                text="{mFilters>fullname}"/>
+                                        </tokens>
+                                    </MultiInput>
+                                </filterBar:control>
+                            </filterBar:FilterGroupItem>
+                            <filterBar:FilterGroupItem
+                                groupName="main"
+                                name="department"                                
+                                mandatory="false"
+                                label="{i18n>MAIN_DEPARTAMENT_LABEL}"
+                                visibleInFilterBar="true">
+                                <filterBar:control>
+                                    <MultiComboBox
+                                        placeholder="{i18n>MAIN_DEPARTAMENT_PLACEHOLDER}"
+                                        selectionChange="onDepartmentItemSelected"
+                                        selectedKeys="{mFilters>/departments}"
+                                        items="{
+                                            path: '/dictPersgSet',
+                                            filters: [
+                                                { path: 'id', operator: 'EQ', value1: 1 },
+                                                { path: 'id', operator: 'EQ', value1: 9 }
+                                            ],
+                                            and: false
+                                        }">
+                                        <core:Item 
+                                            key="{id}" 
+                                            text="{text}" />
+                                    </MultiComboBox>
+                                </filterBar:control>
+                            </filterBar:FilterGroupItem>
+                            <filterBar:FilterGroupItem
+                                groupName="main"
+                                name="period"
+                                mandatory="false"
+                                label="{i18n>MAIN_PERIOD_LABLE}"
+                                visibleInFilterBar="true">
+                                <filterBar:control>
+                                    <DateRangeSelection
+                                        placeholder="{i18n>MAIN_PERIOD_PLACEHOLDER}"
+                                        valueFormat="dd.mm.yyyy"
+                                        dateValue="{path: 'mFilters>/startDate' }"
+                                        secondDateValue="{path: 'mFilters>/endDate' }"
+                                        change="onDateTimeSelected" />
+                                </filterBar:control>
+                            </filterBar:FilterGroupItem>
+                        </filterBar:filterGroupItems>
+                    </filterBar:FilterBar>
+                    <CheckBox
+                        id="checkExpandVac"
+                        class="sapUiTinyMarginEnd"
+                        select="expandVacations"
+                        text="{i18n>MAIN_EXPAND_VACATION}"
+                        valueState="Information" 
+                        visible="{= !!${mMain>/isMobile} }"/>
+                    <CheckBox
+                        id="checkDispWithVac"
+                        class="sapUiTinyMarginEnd"
+                        select="displayedWithVacations"
+                        text="{i18n>MAIN_WITH_VACATION}"
+                        valueState="Information" />
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <VBox 
+                renderType="Bare" 
+                height="100%">
+                <core:Fragment 
+                    fragmentName="ssg.lk.zintvacations.fragment.PlanningCalendar" 
+                    type="XML" />
+                <core:Fragment 
+                    fragmentName="ssg.lk.zintvacations.fragment.mobile.VacationsTable" 
+                    type="XML"/>
+            </VBox>
+        </f:content>		
+    </f:DynamicPage>
+</mvc:View>

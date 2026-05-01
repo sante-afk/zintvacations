@@ -1,0 +1,127 @@
+<core:FragmentDefinition 
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core" 
+    xmlns:f="sap.ui.layout.form">
+    <Dialog 
+        class="sapUiNoContentPadding centered-vacation-dialog-header" 
+        showHeader="true" 
+        title="{i18n>CREATE_VACATION_TITLE_NAME}">
+        <content>
+            <f:SimpleForm 
+                layout="ResponsiveGridLayout" 
+                editable="true">
+                <Label 
+                    text="{i18n>CREATE_VACATION_EMPLOYEE}"
+                    visible="{= ${mPersonal>/role} === 'HR' }"/>
+                <Select
+                    selectedKey="{mCreateNewVacationDialog>/pernr}"
+                    items="{
+                        path: 'mCalendar>/results',
+                        sorter : {
+                            path : 'fullname' 
+                        },
+                        templateShareable: true}"
+                    visible="{= ${mPersonal>/role} === 'HR' }"
+                    change="onChangeEmployeeForNewVacation">
+                    <core:Item 
+                        key="{mCalendar>pernr}" 
+                        text="{mCalendar>fullname}" />
+                </Select>
+                <Label text="{i18n>CREATE_VACATION_TYPE}" />
+                <Select 
+                    selectedKey="{mCreateNewVacationDialog>/type}" 
+                    forceSelection="false"
+                    change="onCheckNewVacation">
+                    <core:Item 
+                        key="Type01" 
+                        text="{i18n>CREATE_VACATION_TYPE_PAID}"/>
+                    <core:Item 
+                        key="Type02" 
+                        text="{i18n>CREATE_VACATION_TYPE_NON_PAID}"/>
+                </Select>
+                <HBox 
+                    class="{= !!${mMain>/isMoile} ? count-days-vac-mobile-left-box : count-days-vac-left-box}" 
+                    justifyContent="End"
+                    alignItems="Center" 
+                    visible="{= ${mCreateNewVacationDialog>/type} === 'Type01'}">
+                    <core:Icon
+                        class="sapUiTinyMarginEnd"
+                        src="sap-icon://appointment-2"
+                        size="1.1rem" />
+                    <Text
+                        core:require="{ formatMessage: 'sap/base/strings/formatMessage' }"
+                        text="{
+                            parts: [
+                                'i18n>CREATE_VACATION_DATA_COUNT_VAC_DAYS', 
+                                'mCreateNewVacationDialog>/daysOfVacLeft'
+                            ], 
+                            formatter: 'formatMessage'
+                        }">
+                        <customData>
+                            <core:CustomData
+                                key="daysOk"
+                                value="{= ${mCreateNewVacationDialog>/daysok}.toString() }"
+                                writeToDom="true" />
+                        </customData>
+                    </Text>
+                </HBox>
+                <Label text="{i18n>CREATE_VACATION_DATA_RANGE}" />            
+                <DateRangeSelection
+                    dateValue="{path: 'mCreateNewVacationDialog>/startDate'}"
+                    secondDateValue="{path: 'mCreateNewVacationDialog>/endDate'}" 
+                    placeholder="{i18n>CREATE_VACATION_DATA_PLACEHOLDER}"
+                    valueFormat="dd.mm.yyyy"
+                    change="onCheckNewVacation"
+                    visible="{= ${mPersonal>/role} === 'HR' }"/>                    
+                <DateRangeSelection
+                    minDate="{mCreateNewVacationDialog>/todayDate}"
+                    dateValue="{path: 'mCreateNewVacationDialog>/startDate'}"
+                    secondDateValue="{path: 'mCreateNewVacationDialog>/endDate'}" 
+                    placeholder="{i18n>CREATE_VACATION_DATA_PLACEHOLDER}"
+                    valueFormat="dd.mm.yyyy"
+                    change="onCheckNewVacation"
+                    visible="{= ${mPersonal>/role} === 'EMPLOYEE' }"/>
+                <HBox 
+                    class="{= !!${mMain>/isMoile} ? count-days-box-mobile : count-days-box}" 
+                    justifyContent="End"
+                    alignItems="Center" 
+                    visible="{= !!${mCreateNewVacationDialog>/startDate} &amp;&amp; !!${mCreateNewVacationDialog>/endDate} }" >
+                    <core:Icon
+                        class="sapUiTinyMarginEnd"
+                        src="sap-icon://alert"
+                        size="1.1rem"
+                        color="red"
+                        tooltip="{i18n>CREATE_VACATION_DATA_ALERT_TOOLTIP}"
+						visible="{= !${mCreateNewVacationDialog>/daysok} }"/>
+                    <Text 
+                        text="{
+                            parts: [
+                                'mCreateNewVacationDialog>/startDate', 
+                                'mCreateNewVacationDialog>/endDate'
+                            ], 
+                            formatter: '.formatter.calculateVacationDays'
+                        }">
+                        <customData>
+                            <core:CustomData
+                                key="daysOk"
+                                value="{= ${mCreateNewVacationDialog>/daysok}.toString() }"
+                                writeToDom="true" />
+                        </customData>
+                    </Text>
+                </HBox>
+            </f:SimpleForm>
+        </content>
+        <buttons>
+            <Button 
+                text="{i18n>CREATE_VACATION_SUBMIT}" 
+                type="Emphasized" 
+                press="onAddVacation"
+                enabled="{= !!${mCreateNewVacationDialog>/enabledSave} }"
+                visible="{= ${mCreateNewVacationDialog>/tab} === 'createVacation' }"/>
+            <Button 
+                text="{i18n>CREATE_VACATION_CLOSE}" 
+                type="Reject" 
+                press="onCloseNewVacationDialog"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

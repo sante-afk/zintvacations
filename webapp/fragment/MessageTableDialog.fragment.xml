@@ -1,0 +1,73 @@
+<core:FragmentDefinition 
+    xmlns:mvc="sap.ui.core.mvc" 
+    xmlns="sap.m" 
+    xmlns:core="sap.ui.core" 
+    xmlns:f="sap.ui.layout.form">
+    <Dialog 
+        title="{path: 'mMessageTableDialog>/leaveType', formatter: '.formatter.formatAward'}" 
+        showHeader="true" 
+        afterClose="onEmployeePress" 
+        contentWidth="25rem" 
+        class="centered-dialog-header">
+        <content>
+            <IconTabBar 
+                class="sapUiNoContentPadding" 
+                expandable="false" 
+                expanded="true">
+                <items>
+                    <IconTabFilter 
+                        text="{i18n>MESSAGE_TABLE_EMPLOYEE_VACATION_INFO}" 
+                        key="employeevacationinfo">
+                        <VBox>
+                            <f:SimpleForm
+                                layout="ResponsiveGridLayout"
+                                editable="false">
+                                <Label 
+                                    text="{i18n>MESSAGE_TABLE_EDIT_DATES}" /> 
+                                    <!-- <DateRangeSelection
+                                        dateValue="{mMessageTableDialog>/startDateNew}"
+                                        secondDateValue="{mMessageTableDialog>/endDateNew}" 
+                                        placeholder="{i18n>MESSAGE_TABLE_DATA_PLACEHOLDER}"
+                                        displayFormat="d MMM yyyy 'г.'"
+                                        visible="{= ${mPersonal>/role} === 'HR' }"/> -->
+                                    <HBox 
+                                        class="count-days-box-change" 
+                                        justifyContent="End" 
+                                        visible="{= !!${mMessageTableDialog>/startDateNew} &amp;&amp; !!${mMessageTableDialog>/endDateNew} }">
+                                        <Text 
+                                            text="{
+                                                parts: [
+                                                    'mMessageTableDialog>/startDateNew', 
+                                                    'mMessageTableDialog>/endDateNew'], 
+                                                formatter: '.formatter.calculateVacationDays'}"/>
+                                    </HBox>                           
+                                    <Label 
+                                        text="{i18n>MESSAGE_TABLE_DATES_TITLE}" 
+                                        design="Bold" />
+                                   <HBox>
+                                        <Text 
+                                            text="{path: 'mMessageTableDialog>/startDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy'}}" />
+                                        <Text 
+                                            class="sapUiTinyMarginBeginEnd" text="-" />
+                                        <Text 
+                                            text="{path: 'mMessageTableDialog>/endDate', type: 'sap.ui.model.type.Date', formatOptions: {pattern: 'dd.MM.yyyy', UTC:true}}" />
+                                    </HBox>
+                            </f:SimpleForm>
+                        </VBox>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
+        </content>
+        <buttons>
+            <!-- <Button 
+                text="{i18n>MESSAGE_TABLE_SUBMIT_APPROVAL}" 
+                type="Accept" 
+                press="onEditVacation"
+                visible="{= ${mPersonal>/role} === 'HR' }" /> -->
+            <Button 
+                text="{i18n>MESSAGE_TABLE_CLOSE}" 
+                type="Reject" 
+                press="onCloseVacationDialog" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>
