@@ -57,15 +57,25 @@ sap.ui.define([], function () {
      */
 
     Formatter.formatAward = function (sLeaveTypeCode) {
-        const oDictAwartDict = this.getView().getModel("mDictAwartDict").getData();
+        if (!sLeaveTypeCode) {
+            return "";
+        }
         
-        const leaveTypeCodeEntry = oDictAwartDict.find(oEntry => oEntry.id === sLeaveTypeCode);
-        if (leaveTypeCodeEntry) {
-            return leaveTypeCodeEntry.text;
-        } else {
+        const oDictAwartDict = this.getView().getModel("mDictAwartDict");
+        
+        if (!oDictAwartDict) {
             return sLeaveTypeCode;
         }
         
+        const oData = oDictAwartDict.getData();
+        
+        if (oData && typeof oData === "object") {
+            if (oData[sLeaveTypeCode] && oData[sLeaveTypeCode].text) {
+                return oData[sLeaveTypeCode].text;
+            }
+        }
+        
+        return sLeaveTypeCode;
     };
 
     /**
