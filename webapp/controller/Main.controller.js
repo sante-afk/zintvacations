@@ -24,7 +24,7 @@ sap.ui.define([
                 customIconWidth: '200px',
                 customIconHeight: '136px',
                 customIconRotationSpeed: 0,
-                customIcon: jQuery.sap.getModulePath("ssg.lk.zintvacations") + "/mixins/zentip.gif"
+                customIcon: jQuery.sap.getModulePath("ssg.lk.zintvacations") + "/mixins/loading.gif"
             }).setBusyIndicatorDelay(0);
             
 			this.oBundle = this.getOwnerComponent().getModel('i18n').getResourceBundle();
@@ -290,11 +290,11 @@ sap.ui.define([
             const oSource = oEvent.getSource();
             const oSelected = oSource.getProperty('selected');
             
-            if (oSelected) {
-                this.getEmployees(true);
-            } else {
-                this.getEmployees();
-            }
+            // if (oSelected) {
+            //     this.getEmployees(true);
+            // } else {
+            //     this.getEmployees();
+            // }
         },
         
         onOpenVacationDialog: function (oEvent) {
@@ -824,7 +824,7 @@ sap.ui.define([
         },
 
         applyFilters: function(){
-            this.getEmployees();
+            // this.getEmployees();
         },
 
         onSuggestionItemSelected: function(oEvent) {
