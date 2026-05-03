@@ -34,16 +34,95 @@ sap.ui.define([
 				startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
 				viewKey: 'M',
 				intervalDate: 31
-			});	
+			});
 
 			const oStartUp = new sap.ui.model.json.JSONModel();
 			oStartUp.loadData("/sap/bc/ui2/start_up", null, false);
-			
-			const oPersonal = new JSONModel();
+
+			const oPersonal = new JSONModel({
+				pernr: "10001",
+				role: "HR",
+			});
 			const oPositionDict = new JSONModel();
-			const oDictAwartDict = new JSONModel();
-			const oDictPersgDict = new JSONModel();
-			const oCalendar = new JSONModel();		
+			const oDictAwartDict = new JSONModel({
+				"Type01": {
+					"text": "Оплачиваемый отпуск"
+				},
+				"Type02": {
+					"text": "Неоплачиваемы отпуск"
+				}
+			});
+			const oDictPersgDict = new JSONModel({});
+			const oCalendar = new JSONModel({
+				"rows": [
+					{
+						"photo": "",
+						"pernr": "1001",
+						"fullname": "Смирнов Михаил Алексеевич",
+						"role": "HR",
+						"daysOfVacLeft": 28,
+						"vacSet": [
+							{
+								"id": "0001",
+								"pernr": "1001",
+								"startDate": new Date(2026, 4, 4),
+								"endDate": new Date(2026, 4, 6),
+								"leaveType": "Type01"
+							},
+						],
+						"startDate": "",
+						"endDate": "",
+						"leaveType": "",
+						"comments": "",
+						"type": "",
+						"tentative": ""
+					},
+					{
+						"photo": "",
+						"pernr": "1002",
+						"fullname": "Александр Дмитриевич Белов",
+						"role": "employee",
+						"daysOfVacLeft": 28,
+						"vacSet": [
+							{
+								"id": "0001",
+								"pernr": "1002",
+								"startDate": new Date(2026, 4, 20),
+								"endDate": new Date(2026, 4, 28),
+								"leaveType": "Type02"
+							},
+						],
+						"startDate": "",
+						"endDate": "",
+						"leaveType": "",
+						"comments": "",
+						"type": "",
+						"tentative": ""
+					},
+					{
+						"photo": "",
+						"pernr": "0003",
+						"fullname": "Максим Юрьевич Орлов",
+						"role": "Hr",
+						"daysOfVacLeft": 28,
+						"vacSet": [
+							{
+								"id": "0001",
+								"pernr": "1003",
+								"startDate": new Date(2026, 4, 1),
+								"endDate": new Date(2026, 4, 3),
+								"leaveType": "Type01"
+							},
+						],
+						"startDate": "",
+						"endDate": "",
+						"leaveType": "",
+						"comments": "",
+						"type": "",
+						"tentative": ""
+					},
+				]
+			});
 			const oDictRequestStatusDict = new JSONModel();
 			const oFilters = new JSONModel({
 				filtersPernr: [],
@@ -51,7 +130,7 @@ sap.ui.define([
 				startDate: null,
 				endDate: null
 			});
-			const oActiveFilterModel  = new JSONModel({
+			const oActiveFilterModel = new JSONModel({
 				activeFilter: "employeeinfo"
 			});
 
@@ -63,10 +142,10 @@ sap.ui.define([
 					this.openMessage(oError.responseText[0] !== "<" ? JSON.parse(oError.responseText) : oError.responseText);
 				}
 			});
-			
+
 			this.getModel().read("/dictAwartSet", {
 				success: (oData) => {
-					oDictAwartDict.setData(oData.results);					
+					oDictAwartDict.setData(oData.results);
 				},
 				error: (oError) => {
 					this.openMessage(oError.responseText[0] !== "<" ? JSON.parse(oError.responseText) : oError.responseText);
@@ -90,20 +169,20 @@ sap.ui.define([
 					this.openMessage(oError.responseText[0] !== "<" ? JSON.parse(oError.responseText) : oError.responseText);
 				}
 			});
-			
+
 			this.setModel(models.createDeviceModel(), 'device')
 				.setModel(oMain, 'mMain')
+				.setModel(oDictAwartDict, 'mDictAwartDict')
 				.setModel(oStartUp, 'mStartUp')
 				.setModel(oCalendar, 'mCalendar')
 				.setModel(oCalendarSettings, 'mCalendarSettings')
 				.setModel(oPersonal, 'mPersonal')
 				.setModel(oPositionDict, 'mPositionDict')
-				.setModel(oDictAwartDict, 'mDictAwartDict')
 				.setModel(oDictPersgDict, 'mDictPersgDict')
 				.setModel(oDictRequestStatusDict, 'mDictRequestStatusDict')
 				.setModel(oFilters, 'mFilters')
 				.setModel(oActiveFilterModel, 'mActiveFilterModel');
-		}
+		},
 		
 	});
 });
