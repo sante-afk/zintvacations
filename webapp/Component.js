@@ -27,7 +27,54 @@ sap.ui.define([
 				isMobile: sap.ui.Device.system.phone,
 				browser: sap.ui.Device.browser.filterName,
 				resize: document.documentElement,
-				count: 0
+				count: 0,
+				requests: { 
+					results: [
+						{
+							pernr: "1001",
+							fullname: "Смирнов Михаил Алексеевич",
+							leaveType: "Type01",
+							statusID: "01",
+							startDate: new Date(2026, 4, 4),
+							endDate: new Date(2026, 4, 6),
+							docsSet: {
+								results: [
+									{
+										doctype: "Приказ",
+										fileName: "prikaz_1001_01.pdf"
+									}
+								]
+							}
+						},
+						{
+							pernr: "1002",
+							fullname: "Александр Дмитриевич Белов",
+							leaveType: "Type02",
+							statusID: "02",
+							startDate: new Date(2026, 4, 20),
+							endDate: new Date(2026, 4, 28),
+							docsSet: {
+								results: []
+							}
+						},
+						{
+							pernr: "1003",
+							fullname: "Максим Юрьевич Орлов",
+							leaveType: "Type01",
+							statusID: "03",
+							startDate: new Date(2026, 4, 1),
+							endDate: new Date(2026, 4, 3),
+							docsSet: {
+								results: [
+									{
+										doctype: "Заявление",
+										fileName: "zayavlenie_1003_01.pdf"
+									}
+								]
+							}
+						}
+					]
+				}
 			});
 
 			const oCalendarSettings = new JSONModel({
@@ -52,7 +99,12 @@ sap.ui.define([
 					"text": "Неоплачиваемы отпуск"
 				}
 			});
-			const oDictPersgDict = new JSONModel({});
+			const oDictPersgDict = new JSONModel({
+				"results": [
+					{ id: 1, text: "Основной отдел" },
+					{ id: 9, text: "Внешний отдел" }
+				]
+			});
 			const oCalendar = new JSONModel({
 				"rows": [
 					{
@@ -101,7 +153,7 @@ sap.ui.define([
 					},
 					{
 						"photo": "",
-						"pernr": "0003",
+						"pernr": "1003",
 						"fullname": "Максим Юрьевич Орлов",
 						"role": "Hr",
 						"daysOfVacLeft": 28,
@@ -123,7 +175,11 @@ sap.ui.define([
 					},
 				]
 			});
-			const oDictRequestStatusDict = new JSONModel();
+			const oDictRequestStatusDict = new JSONModel({
+				"01": { text: "На рассмотрении" },
+				"02": { text: "Отклонена" },
+				"03": { text: "Одобрена" }
+			});
 			const oFilters = new JSONModel({
 				filtersPernr: [],
 				departments: [],
@@ -146,15 +202,6 @@ sap.ui.define([
 			this.getModel().read("/dictAwartSet", {
 				success: (oData) => {
 					oDictAwartDict.setData(oData.results);
-				},
-				error: (oError) => {
-					this.openMessage(oError.responseText[0] !== "<" ? JSON.parse(oError.responseText) : oError.responseText);
-				}
-			});
-
-			this.getModel().read("/dictPersgSet", {
-				success: (oData) => {
-					oDictPersgDict.setData(oData.results);
 				},
 				error: (oError) => {
 					this.openMessage(oError.responseText[0] !== "<" ? JSON.parse(oError.responseText) : oError.responseText);
