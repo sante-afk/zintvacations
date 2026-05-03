@@ -182,7 +182,7 @@ sap.ui.define([
             this.oEmployeeVacationDialog.setModel(mEmployeeVacationDialog, "mEmployeeVacationDialog");
 
             this.oEmployeeVacationDialog.open();
-            this.oEmployeeVacationDialog.setBusy(true);
+            // this.oEmployeeVacationDialog.setBusy(true);
 
             let sPernr;
             if (sRole === 'HR') {
@@ -218,12 +218,12 @@ sap.ui.define([
             this.oApproveVacationDialog.setModel(mApproveVacationDialog, "mApproveVacationDialog");
             
             this.oApproveVacationDialog.open();
-            this.oApproveVacationDialog.setBusy(true);
+            // this.oApproveVacationDialog.setBusy(true);
 
-            this.getVacationRequests()
-                .then(() => {
-                    this.oApproveVacationDialog.setBusy(false);
-                });
+            // this.getVacationRequests()
+            //     .then(() => {
+            //         this.oApproveVacationDialog.setBusy(false);
+            //     });
         },
 
         onSearchVacationDialog: function(oEvent) {

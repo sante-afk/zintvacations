@@ -37,17 +37,17 @@ sap.ui.define([], function () {
      * @returns {string} Текстовое представление позиции с HTML-разделителем.
      */
     Formatter.formatPosition = function (oPositionCode) {
-        const oPositionDict = this.getView().getModel("mPositionDict").getData();
-        if (!oPositionDict || oPositionDict instanceof Object) return;
-
-        const oPositionEntry = oPositionDict.find(oEntry => oEntry.pernr === oPositionCode);
+        const oPositionDict = sap.ui.getCore().getModel("mPositionDict");
+        if (!oPositionDict) return oPositionCode;
+        
+        const oData = oPositionDict.getData();
+        if (!oData || !Array.isArray(oData)) return oPositionCode;
+        
+        const oPositionEntry = oData.find(oEntry => oEntry.pernr === oPositionCode);
         if (oPositionEntry && oPositionEntry.plansText) {
             return oPositionEntry.plansText.toLowerCase();
-        } else if (oPositionEntry) {
-            return "нет данных";
-        } else {
-            return oPositionCode;
         }
+        return "нет данных";
     };
 
     /**
@@ -74,7 +74,6 @@ sap.ui.define([], function () {
                 return oData[sLeaveTypeCode].text;
             }
         }
-        
         return sLeaveTypeCode;
     };
 
@@ -85,14 +84,30 @@ sap.ui.define([], function () {
      */
 
     Formatter.formatDepartment = function (sDepartmentCode) {
-        const oDictPersgDict = this.getView().getModel("mDictPersgDict").getData();
+        if (!sDepartmentCode) return "";
         
-        const oPersgEntry = oDictPersgDict.find(oObj => oObj.id === sDepartmentCode);
-        if (oPersgEntry) {
-            return oPersgEntry.text;
-        } else {
-            return sDepartmentCode;
+        const oDictPersgDict = sap.ui.getCore().getModel("mDictPersgDict");
+        if (!oDictPersgDict) return sDepartmentCode;
+        
+        const oData = oDictPersgDict.getData();
+        
+        // Поиск в results
+        if (oData && Array.isArray(oData.results)) {
+            const oPersgEntry = oData.results.find(oObj => oObj.id === sDepartmentCode);
+            if (oPersgEntry) {
+                return oPersgEntry.text;
+            }
         }
+        
+        // Если данные прям в массиве
+        if (Array.isArray(oData)) {
+            const oPersgEntry = oData.find(oObj => oObj.id === sDepartmentCode);
+            if (oPersgEntry) {
+                return oPersgEntry.text;
+            }
+        }
+        
+        return sDepartmentCode;
     };
 
     /**
@@ -102,20 +117,30 @@ sap.ui.define([], function () {
      */
 
     Formatter.formatStatus = function (sStatusCode, sDocId) {
-        const oBundle = this.getResourceBundle();
-        const oDictRequestStatusDict = this.getView().getModel("mDictRequestStatusDict").getData();
+        let sStatusText = "";
         
-        const oStatusEntry = oDictRequestStatusDict.find(oObj => oObj.statusID === sStatusCode);
-        if (oStatusEntry) {
-            if (sStatusCode === '01' && !sDocId) {
-                return oBundle.getText('EMPLOYEE_VACATION_DOCS_NOT_SIGNED');
-            } else {
-                return oStatusEntry.statusText;
-            }
-        } else {
-            return sStatusCode;
+        switch (sStatusCode) {
+            case "01":
+                sStatusText = "На рассмотрении";
+                break;
+            case "02":
+                sStatusText = "Отклонена";
+                break;
+            case "03":
+                sStatusText = "Одобрена";
+                break;
+            default:
+                sStatusText = sStatusCode;
+                break;
         }
+        
+        if (sStatusCode === "01" && !sDocId) {
+            return "Документ не подписан";
+        }
+        
+        return sStatusText;
     };
+
     /**
      * Форматирует код позиции в текстовое представление.
      * @param {string} sStartDate Код позиции дат.
@@ -230,19 +255,13 @@ sap.ui.define([], function () {
     };
 
     Formatter.getPendingCount = function(aRequests) {
-        if (!Array.isArray(aRequests)) {
-            return 0;
-        }
-
-        return aRequests.filter(r => r.statusID === '01').length;
+        if (!aRequests || !aRequests.results) return 0;
+        return aRequests.results.filter(r => r.statusID === '01').length;
     };
 
     Formatter.getReviewedCount = function(aRequests) {
-        if (!Array.isArray(aRequests)) {
-            return 0;
-        }
-
-        return aRequests.filter(r => r.statusID !== '01').length;
+        if (!aRequests || !aRequests.results) return 0;
+        return aRequests.results.filter(r => r.statusID !== '01').length;
     };
 
     return Formatter;
