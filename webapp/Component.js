@@ -35,8 +35,8 @@ sap.ui.define([
 							fullname: "Смирнов Михаил Алексеевич",
 							leaveType: "Type01",
 							statusID: "01",
-							startDate: new Date(2026, 4, 4),
-							endDate: new Date(2026, 4, 6),
+							startDate: new Date(2026, 11, 1),
+							endDate: new Date(2026, 11, 3),
 							docsSet: {
 								results: [
 									{
@@ -49,10 +49,10 @@ sap.ui.define([
 						{
 							pernr: "1002",
 							fullname: "Александр Дмитриевич Белов",
-							leaveType: "Type02",
+							leaveType: "Type01",
 							statusID: "02",
-							startDate: new Date(2026, 4, 20),
-							endDate: new Date(2026, 4, 28),
+							startDate: new Date(2026, 6, 23),
+							endDate: new Date(2026, 6, 30),
 							docsSet: {
 								results: []
 							}
@@ -60,10 +60,10 @@ sap.ui.define([
 						{
 							pernr: "1003",
 							fullname: "Максим Юрьевич Орлов",
-							leaveType: "Type01",
+							leaveType: "Type02",
 							statusID: "03",
-							startDate: new Date(2026, 4, 1),
-							endDate: new Date(2026, 4, 3),
+							startDate: new Date(2026, 5, 4),
+							endDate: new Date(2026, 5, 7),
 							docsSet: {
 								results: [
 									{
@@ -108,6 +108,74 @@ sap.ui.define([
 			const oCalendar = new JSONModel({
 				"rows": [
 					{
+						"photo": "",
+						"pernr": "1001",
+						"fullname": "Смирнов Михаил Алексеевич",
+						"role": "HR",
+						"daysOfVacLeft": 28,
+						"vacSet": [
+							{
+								"id": "0001",
+								"pernr": "1001",
+								"startDate": new Date(2026, 4, 4),
+								"endDate": new Date(2026, 4, 6),
+								"leaveType": "Type01"
+							},
+						],
+						"startDate": "",
+						"endDate": "",
+						"leaveType": "",
+						"comments": "",
+						"type": "",
+						"tentative": ""
+					},
+					{
+						"photo": "",
+						"pernr": "1002",
+						"fullname": "Александр Дмитриевич Белов",
+						"role": "employee",
+						"daysOfVacLeft": 28,
+						"vacSet": [
+							{
+								"id": "0001",
+								"pernr": "1002",
+								"startDate": new Date(2026, 4, 20),
+								"endDate": new Date(2026, 4, 28),
+								"leaveType": "Type02"
+							},
+						],
+						"startDate": "",
+						"endDate": "",
+						"leaveType": "",
+						"comments": "",
+						"type": "",
+						"tentative": ""
+					},
+					{
+						"photo": "",
+						"pernr": "1003",
+						"fullname": "Максим Юрьевич Орлов",
+						"role": "Hr",
+						"daysOfVacLeft": 28,
+						"vacSet": [
+							{
+								"id": "0001",
+								"pernr": "1003",
+								"startDate": new Date(2026, 4, 1),
+								"endDate": new Date(2026, 4, 3),
+								"leaveType": "Type01"
+							},
+						],
+						"startDate": "",
+						"endDate": "",
+						"leaveType": "",
+						"comments": "",
+						"type": "",
+						"tentative": ""
+					},
+				],
+				"results": [
+										{
 						"photo": "",
 						"pernr": "1001",
 						"fullname": "Смирнов Михаил Алексеевич",

@@ -37,7 +37,6 @@
                                 path: 'mMain>/requests/results',
                                 filters: [
                                     { path: 'statusID', operator: 'EQ', value1: '01' },
-                                    { path: 'pernr', operator: 'EQ', value1: '{mPersonal>/pernr}' }   
                                 ],
                                 sorter: { path: 'startDate', descending: true }
                             }">
@@ -145,7 +144,6 @@
                                 path: 'mMain>/requests/results',
                                 filters: [
                                     { path: 'statusID', operator: 'NE', value1: '01' },
-                                    { path: 'pernr', operator: 'EQ', value1: '{mPersonal>/pernr}' }  
                                 ],
                                 sorter: { path: 'startDate', descending: true }
                             }">

@@ -472,34 +472,40 @@ sap.ui.define([
                 sicklist: oObject.sicklist,
             };
 
-            this.oApproveVacationDialog.setBusy(true);
-            this.mZintVacationsSrv.create("/requestSet", oUpdateRequest, {
-                success: () => {
-                    this.getEmployees()
-                        .then(() => {
-                            if (sAction === 'approve') {
-                                MessageBox.success(this.oBundle.getText("SUCCESS_VACATION"));
-                            } else {
-                                MessageBox.success(this.oBundle.getText("SUCCESS_REJECT_VACATION"));
-                            }
+            // this.oApproveVacationDialog.setBusy(true);
+            // this.mZintVacationsSrv.create("/requestSet", oUpdateRequest, {
+                // success: () => {
+                //     this.getEmployees()
+                //         .then(() => {
+                //             if (sAction === 'approve') {
+                //                 MessageBox.success(this.oBundle.getText("SUCCESS_VACATION"));
+                //             } else {
+                //                 MessageBox.success(this.oBundle.getText("SUCCESS_REJECT_VACATION"));
+                //             }
 
-                            this.getVacationRequests()
-                                .then(() => {
-                                    this.oApproveVacationDialog.setBusy(false);
-                                });
-                        });
-                },
-                error: oError => {
-                    if (oError.responseText.includes("0007")) {
-                        MessageBox.error(this.oBundle.getText("ERROR_INFOTYPE_0007"));
-                    } else if (oError.responseText.includes("0100")) {
-                        MessageBox.error(this.oBundle.getText("ERROR_0100"));
-                    } else {
-                        this.openMessage(oError.responseText[0] !== "<" ? JSON.parse(oError.responseText) : oError.responseText);
-                    }
-                    this.oApproveVacationDialog.setBusy(false);
+                //             this.getVacationRequests()
+                //                 .then(() => {
+                //                     this.oApproveVacationDialog.setBusy(false);
+                //                 });
+                //         });
+                // },
+                // error: oError => {
+                //     if (oError.responseText.includes("0007")) {
+                //         MessageBox.error(this.oBundle.getText("ERROR_INFOTYPE_0007"));
+                //     } else if (oError.responseText.includes("0100")) {
+                //         MessageBox.error(this.oBundle.getText("ERROR_0100"));
+                //     } else {
+                //         this.openMessage(oError.responseText[0] !== "<" ? JSON.parse(oError.responseText) : oError.responseText);
+                //     }
+                //     this.oApproveVacationDialog.setBusy(false);
+                // }
+
+                if (sAction === 'approve') {
+                    MessageBox.success(this.oBundle.getText("SUCCESS_VACATION"));
+                } else {
+                    MessageBox.success(this.oBundle.getText("SUCCESS_REJECT_VACATION"));
                 }
-            });
+            // });
         },
 
         onCloseCommentDialog: function () {
